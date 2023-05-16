@@ -2,7 +2,7 @@
 
 <!-- git log --pretty="- %s" -->
 
-## [0.1.0] - 2023-05-16
+## v0.1.0
 
 ### Added
 
@@ -30,3 +30,17 @@
 ### Removed
 
 -   remove dependencies
+
+## v0.4.0
+
+### Changed
+
+-   delete dist and build for changing versioning
+-   update versioning
+-   Release: 0.1.0
+-   update release
+-   changed versioning
+-   update setup.py
+-   update changelog
+-   update action again
+-   update tag and release name
