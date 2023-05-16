@@ -37,7 +37,7 @@
 
 -   delete dist and build for changing versioning
 -   update versioning
--   Release: 0.1.0
+-   Release: v0.4.0
 -   update release
 -   changed versioning
 -   update setup.py
