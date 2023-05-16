@@ -40,7 +40,7 @@ jobs:
               id: get_commit_messages
               run: echo "::set-output name=commit_messages::$(git log --pretty=format:'- %s' ${{ steps.get_previous_tag.outputs.previous_tag }}..HEAD)"
 
-            - name: This release includes initial bug fixes and improvements, including-
+            - name: This release includes initial bug fixes and improvements
               uses: actions/create-release@v1
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
