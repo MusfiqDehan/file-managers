@@ -7,5 +7,7 @@ setup(
     author_email='musfiqur.rahaman@northsouth.edu',
     description='A Python Package to manage your files and folders easily in different ways.',
     packages=['file_managers'],
-    install_requires=[]
+    install_requires=['twine', 'wheel'],
+    url='https://github.com/MusfiqDehan/file-managers'
+
 )
