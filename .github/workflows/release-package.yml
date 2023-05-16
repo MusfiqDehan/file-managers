@@ -1,53 +1,26 @@
-name: Release Package
+# This is a basic workflow to help you get started with the GitHub Auto-Release on Commit Action.
+
+name: AutoRelease
 
 on:
     push:
-        tags:
-            - "*"
+        branches: [master]
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+    # This workflow contains a single job called "build"
     release:
+        # The type of runner that the job will run on
         runs-on: ubuntu-latest
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-
-            - name: Get previous tag
-              id: get_previous_tag
-              run: echo "::set-output name=previous_tag::$(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1))"
-
-            - name: Setup Python
-              uses: actions/setup-python@v2
+            - uses: actions/checkout@v2
+            - uses: CupOfTea696/gh-action-auto-release@v1.0.0
               with:
-                  python-version: "3.x"
-
-            - name: Install dependencies
-              run: pip3 install -r requirements.txt
-
-            - name: Build package
-              run: python3 setup.py sdist bdist_wheel
-
-            - name: Install twine
-              run: pip3 install twine
-
-            - name: Upload package to PyPI
-              env:
-                  TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-                  TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-              run: twine upload dist/*
-
-            - name: Get commit messages since last release
-              id: get_commit_messages
-              run: echo "::set-output name=commit_messages::$(git log --pretty=format:'- %s' ${{ steps.get_previous_tag.outputs.previous_tag }}..HEAD)"
-
-            - name: Create GitHub release
-              uses: actions/create-release@v1
+                  title: "Release: $version"
+                  tag: "v$semver"
+                  draft: false
+                  regex: "/^Release: #{semver}$/i"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  tag_name: ${{ github.ref }}
-                  release_name: Release ${{ github.ref }}
-                  body: |
-                      ${{ steps.get_commit_messages.outputs.commit_messages }}
-                  draft: false
-                  prerelease: false
