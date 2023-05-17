@@ -1,11 +1,13 @@
 # Name of the workflow
-name: "release"
-# N Run on every connit tag which begins with "v" (e.g., "v@.1.4")
+name: Release
+
+# Run on every commit tag which begins with "v" (e.g., "v0.1.4")
 on:
     push:
         tags:
             - "v*"
-# Automatically create a GitHub Release, with release details specified [the relevant commits)
+
+# Automatically create a GitHub Release, with release details specified (the relevant commits)
 jobs:
     release:
         name: "Release"
