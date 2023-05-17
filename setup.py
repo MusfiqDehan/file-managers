@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='file-managers',
-    version='0.9.0',
+    version='0.10.0',
     author='Md. Musfiqur Rahaman',
     author_email='musfiqur.rahaman@northsouth.edu',
     description='A Python Package to manage your files and folders easily in different ways.',
