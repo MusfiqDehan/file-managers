@@ -28,7 +28,7 @@ jobs:
             - name: Create a release
               run: |
                   python3 setup.py sdist bdist_wheel
-                  git tag -a "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
+                  git tag "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
                   git push --follow-tags
             - name: Upload release to PyPI
               uses: pypa/gh-action-pypi-publish@v1.8.6
