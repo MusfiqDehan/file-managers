@@ -41,7 +41,7 @@ jobs:
                   tag_name: v${{ steps.current-version.outputs.version }}
                   release_name: Release v${{ steps.current-version.outputs.version }}
                   body: |
-                      $(git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- %s%n")
+                      $(git log $(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1)..HEAD) --pretty=format:"- %s%n")
             - name: Upload release to PyPI
               uses: pypa/gh-action-pypi-publish@v1.8.6
               with:
