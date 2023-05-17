@@ -40,8 +40,7 @@ jobs:
               run: echo "::set-output name=current_version::$(git describe --abbrev=0 HEAD)"
 
             - name: Get commit messages
-              run: |
-              git log --pretty=%B --first-parent HEAD..master > commit_messages.txt
+              run: git log --pretty='- %s'  > commit_messages.txt
 
             - name: Set release body
               run: |
