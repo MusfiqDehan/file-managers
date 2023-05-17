@@ -41,9 +41,7 @@ jobs:
 
             - name: Get commit messages
               run: |
-                  git log --pretty=%B \
-                    --first-parent \
-                    ${{ steps.get_previous_version.outputs.previous_version }}..${{ steps.get_current_version.outputs.current_version }} > commit_messages.txt
+              git log --pretty=%B --first-parent HEAD..master > commit_messages.txt
 
             - name: Set release body
               run: |
