@@ -33,19 +33,24 @@ jobs:
                   git tag -a "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
                   git push --follow-tags
 
-            - name: Set Environment Variables
+            - name: Get previous version
+              run: echo "::set-output name=previous_version::$(git describe --abbrev=0 HEAD^)"
+
+            - name: Get current version
+              run: echo "::set-output name=current_version::$(git describe --abbrev=0 HEAD)"
+
+            - name: Get commit messages
               run: |
-                  LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
-                  CURRENT_TAG=$(echo ${{ github.ref }} | sed 's/^refs\/tags\///')
+                  git log --pretty=%B \
+                    --first-parent \
+                    ${{ steps.get_previous_version.outputs.previous_version }}..${{ steps.get_current_version.outputs.current_version }} > commit_messages.txt
 
-                  echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
-                  echo "CURRENT_TAG=$CURRENT_TAG" >> $GITHUB_ENV
-
-            - name: Get Commit Log
+            - name: Set release body
               run: |
-                  COMMITS=$(git log ${{ env.LATEST_TAG }}..${{ env.CURRENT_TAG }} --pretty=format:'- %s' --reverse)
-
-                  echo "::set-output name=commits::$COMMITS"
+                  echo "### Commit Messages"
+                  echo ""
+                  cat commit_messages.txt
+                  echo ""
 
             - name: Create a GitHub release
               id: create_release
@@ -55,7 +60,7 @@ jobs:
               with:
                   tag_name: v${{ steps.current-version.outputs.version }}
                   release_name: Release v${{ steps.current-version.outputs.version }}
-                  body: ${{ steps.get-commit-log.outputs.commits }}
+                  body: ${{ steps.set_release_body.outputs.body }}
 
             - name: Upload release to PyPI
               uses: pypa/gh-action-pypi-publish@v1.8.6
