@@ -15,7 +15,7 @@ jobs:
               with:
                   python-version: 3.x
             - name: Install dependencies
-              run: pip install -r requirements.txt
+              run: pip3 install -r requirements.txt
             - name: Get the current version
               id: current-version
               run: echo "::set-output name=version::$(python setup.py --version)"
@@ -27,7 +27,7 @@ jobs:
                     fi
             - name: Create a release
               run: |
-                  python setup.py sdist bdist_wheel
+                  python3 setup.py sdist bdist_wheel
                   git tag -a "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
                   git push --follow-tags
             - name: Upload release to PyPI
