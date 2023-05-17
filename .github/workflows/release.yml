@@ -24,7 +24,7 @@ jobs:
                   if [[ $(git log -1 --pretty=%B) != "Release v${{ steps.current-version.outputs.version }}" ]]; then
                     echo "Commit message does not match the release pattern."
                     exit 1
-                    fi
+                  fi
             - name: Create a release
               run: |
                   python3 setup.py sdist bdist_wheel
@@ -32,6 +32,16 @@ jobs:
                   git config user.name "Md. Musfiqur Rahaman"
                   git tag -a "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
                   git push --follow-tags
+            - name: Create a GitHub release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: v${{ steps.current-version.outputs.version }}
+                  release_name: Release v${{ steps.current-version.outputs.version }}
+                  body: |
+                      $(git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- %s%n")
             - name: Upload release to PyPI
               uses: pypa/gh-action-pypi-publish@v1.8.6
               with:
