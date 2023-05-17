@@ -44,3 +44,12 @@
 -   update changelog
 -   update action again
 -   update tag and release name
+
+## v0.19.0
+
+### Changed
+
+-   update versioning
+-   Release: v0.19.0
+-   update release
+-   changed versioning
