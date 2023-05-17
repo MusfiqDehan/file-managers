@@ -32,6 +32,10 @@ jobs:
                   git config user.name "Md. Musfiqur Rahaman"
                   git tag -a "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
                   git push --follow-tags
+            - name: Get commit messages
+              id: commit-messages
+              run: |
+                  git log $(git describe --tags --abbrev=0)..$(git describe --tags --abbrev=0 --always) --pretty=format:"%s%n%b"
             - name: Create a GitHub release
               id: create_release
               uses: actions/create-release@v1
@@ -40,8 +44,7 @@ jobs:
               with:
                   tag_name: v${{ steps.current-version.outputs.version }}
                   release_name: Release v${{ steps.current-version.outputs.version }}
-                  body: |
-                      $(git log $(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1)..HEAD) --pretty=format:"- %s%n" | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/%0A/g' | awk '{print "- " $0}')
+                  body: ${{ steps.commit-messages.outputs.stdout }}
             - name: Upload release to PyPI
               uses: pypa/gh-action-pypi-publish@v1.8.6
               with:
