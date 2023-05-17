@@ -1,17 +1,25 @@
-# Name of the workflow
-name: Release
-# N Run on every connit tag which begins with "v" (e.g., "v@.1.4")
+name: "tagged-release"
+
 on:
     push:
         tags:
             - "v*"
-# Automatically create a GitHub Release, with release details specified [the relevant commits)
+
 jobs:
-    release:
-        name: "Release"
+    tagged-release:
+        name: "Tagged Release"
         runs-on: "ubuntu-latest"
+
         steps:
+            # ...
+            - name: "Build & test"
+              run: |
+                  echo "done!"
+
             - uses: "marvinpinto/action-automatic-releases@latest"
               with:
                   repo_token: "${{ secrets.GITHUB_TOKEN }}"
                   prerelease: false
+                  files: |
+                      LICENSE.txt
+                      *.jar
