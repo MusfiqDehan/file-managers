@@ -55,7 +55,7 @@ jobs:
               with:
                   tag_name: v${{ steps.current-version.outputs.version }}
                   release_name: Release v${{ steps.current-version.outputs.version }}
-                  body: ${{ steps.get_commit_log.outputs.commits }}
+                  body: ${{ steps.get-commit-log.outputs.commits }}
 
             - name: Upload release to PyPI
               uses: pypa/gh-action-pypi-publish@v1.8.6
