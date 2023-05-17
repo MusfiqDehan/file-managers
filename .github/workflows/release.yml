@@ -32,10 +32,21 @@ jobs:
                   git config user.name "Md. Musfiqur Rahaman"
                   git tag -a "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
                   git push --follow-tags
-            - name: Get commit messages
-              id: commit-messages
+
+            - name: Set Environment Variables
               run: |
-                  git log $(git describe --tags --abbrev=0)..$(git describe --tags --abbrev=0 --always) --pretty=format:"%s%n%b"
+                  LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+                  CURRENT_TAG=$(echo ${{ github.ref }} | sed 's/^refs\/tags\///')
+
+                  echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+                  echo "CURRENT_TAG=$CURRENT_TAG" >> $GITHUB_ENV
+
+            - name: Get Commit Log
+              run: |
+                  COMMITS=$(git log ${{ env.LATEST_TAG }}..${{ env.CURRENT_TAG }} --pretty=format:'- %s' --reverse)
+
+                  echo "::set-output name=commits::$COMMITS"
+
             - name: Create a GitHub release
               id: create_release
               uses: actions/create-release@v1
@@ -44,7 +55,8 @@ jobs:
               with:
                   tag_name: v${{ steps.current-version.outputs.version }}
                   release_name: Release v${{ steps.current-version.outputs.version }}
-                  body: ${{ github.event.commits.message }}
+                  body: ${{ steps.get_commit_log.outputs.commits }}
+
             - name: Upload release to PyPI
               uses: pypa/gh-action-pypi-publish@v1.8.6
               with:
