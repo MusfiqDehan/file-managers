@@ -24,6 +24,7 @@ jobs:
                   if [[ $(git log -1 --pretty=%B) != "Release v${{ steps.current-version.outputs.version }}" ]]; then
                     echo "Commit message does not match the release pattern."
                     exit 1
+                    fi
             - name: Create a release
               run: |
                   python setup.py sdist bdist_wheel
