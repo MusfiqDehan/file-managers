@@ -1,19 +1,53 @@
-# Name of the workflow
 name: Release
 
-# Run on every commit tag which begins with "v" (e.g., "v0.1.4")
 on:
     push:
         tags:
-            - "v*"
+            - "*"
 
-# Automatically create a GitHub Release, with release details specified (the relevant commits)
 jobs:
     release:
-        name: "Release"
-        runs-on: "ubuntu-latest"
+        runs-on: ubuntu-latest
         steps:
-            - uses: "marvinpinto/action-automatic-releases@latest"
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Get previous tag
+              id: get_previous_tag
+              run: echo "::set-output name=previous_tag::$(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1))"
+
+            - name: Setup Python
+              uses: actions/setup-python@v2
               with:
-                  repo_token: "${{ secrets.GITHUB_TOKEN }}"
+                  python-version: "3.x"
+
+            - name: Install dependencies
+              run: pip install -r requirements.txt
+
+            - name: Build package
+              run: python setup.py sdist bdist_wheel
+
+            - name: Install twine
+              run: pip install twine
+
+            - name: Upload package to PyPI
+              env:
+                  TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+                  TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+              run: twine upload dist/*
+
+            - name: Get commit messages since last release
+              id: get_commit_messages
+              run: echo "::set-output name=commit_messages::$(git log --pretty=format:'- %s' ${{ steps.get_previous_tag.outputs.previous_tag }}..HEAD)"
+
+            - name: Create GitHub release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: ${{ github.ref }}
+                  release_name: Release ${{ github.ref }}
+                  body: |
+                      ${{ steps.get_commit_messages.outputs.commit_messages }}
+                  draft: false
                   prerelease: false
