@@ -38,31 +38,6 @@ jobs:
                   git tag -a "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
                   git push --follow-tags
 
-            # - name: Get previous version
-            #   run: echo "::set-output name=previous_version::$(git describe --abbrev=0 HEAD^)"
-
-            # - name: Get current version
-            #   run: echo "::set-output name=current_version::$(git describe --abbrev=0 HEAD)"
-
-            # - name: Get commit messages
-            #   run: git log --pretty='- %s'  > commit_messages.txt
-
-            # - name: Set release body
-            #   run: |
-            #       echo "### Commit Messages"
-            #       echo ""
-            #       cat commit_messages.txt
-            #       echo ""
-
-            # - name: Create a GitHub release
-            #   id: create_release
-            #   uses: actions/create-release@v1
-            #   env:
-            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            #   with:
-            #       tag_name: v${{ steps.current-version.outputs.version }}
-            #       release_name: Release v${{ steps.current-version.outputs.version }}
-
             - name: Auto Release
               uses: CupOfTea696/gh-action-auto-release@v1.0.2
               with:
