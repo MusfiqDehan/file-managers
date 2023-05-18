@@ -17,7 +17,7 @@ jobs:
 
             - name: Get the current version
               id: current-version
-              run: echo "VERSION=$(python setup.py --version)" >> $GITHUB_ENV
+              run: echo "::set-output name=version::$(python setup.py --version)"
 
             - name: Check if the commit message matches the release pattern
               run: |
@@ -27,8 +27,8 @@ jobs:
                   fi
 
             - name: Update changelog
-              if: contains(github.event.head_commit.message, 'Update changelog for v${{ env.VERSION }}')
+              if: contains(github.event.head_commit.message, 'Update changelog for v${{ steps.current-version.outputs.version }}')
               run: |
                   export PREVIOUS_VERSION=$(git tag -l --sort=-creatordate | head -n 1)
                   export CHANGES=$(git log --pretty="- %s" $PREVIOUS_VERSION..)
-                  printf "# v${{ env.VERSION }}\n\n## Changes\n$CHANGES\n" > $GITHUB_WORKSPACE/CHANGELOG.md
+                  printf "# v${{ steps.current-version.outputs.version }}\n\n## Changes\n$CHANGES\n" > CHANGELOG.md
