@@ -12,9 +12,13 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v3
 
+            - name: Get the current version
+              id: current-version
+              run: echo "::set-output name=version::$(python setup.py --version)"
+
             - name: Update Changelog
               run: |
-                  version=$(cat VERSION)
+                  version=${{steps.current-version.outputs.version}}
                   changelog="# Changelog\n\n## v${version}\n\n### Changed\n\n"
                   for commit in $(git log --pretty='- %s' HEAD^..HEAD); do
                     changelog="${changelog}- ${commit}\n"
@@ -27,7 +31,5 @@ jobs:
                   git commit -m "Updated changelog"
 
             - name: Push Changelog
-              uses: ad-m/github-push-action@master
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  branch: ${{ github.ref }}
+              run: |
+                  git push
