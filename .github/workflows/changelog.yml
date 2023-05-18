@@ -12,6 +12,8 @@ jobs:
         steps:
             - name: Checkout code
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
             - name: Get the current version
               id: current-version
@@ -25,7 +27,7 @@ jobs:
                   fi
 
             - name: Update changelog
-              if: contains(github.event.head_commit.message, 'Update changelog for v${{ steps.current-version.outputs.version }}')
+              if: contains(github.event.head_commit.message, 'Update changelog for v0.1.0')
               run: |
                   export PREVIOUS_VERSION=$(git tag -l --sort=-creatordate | head -n 1)
                   export CHANGES=$(git log --pretty="- %s" $PREVIOUS_VERSION..)
