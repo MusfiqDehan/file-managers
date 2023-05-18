@@ -1,0 +1,25 @@
+name: Update Changelog
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    update-changelog:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Get the current version
+              id: current-version
+              run: echo "::set-output name=version::$(python setup.py --version)"
+
+            - name: Update changelog
+              if: contains(github.event.head_commit.message, 'Update changelog for v${{ steps.current-version.outputs.version }}')
+              run: |
+                  export PREVIOUS_VERSION=$(git tag -l --sort=-creatordate | head -n 1)
+                  export CHANGES=$(git log --pretty="- %s" $PREVIOUS_VERSION..)
+                  printf "# v${{ steps.current-version.outputs.version }}\n\n## Changes\n$CHANGES\n" > CHANGELOG.md
