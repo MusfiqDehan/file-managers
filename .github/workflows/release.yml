@@ -38,19 +38,13 @@ jobs:
                   git tag -a "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
                   git push --follow-tags
 
-            - name: Update changelog
-              run: |
-                  export PREVIOUS_VERSION=$(git tag -l --sort=-creatordate | head -n 1)
-                  export CHANGES=$(git log --pretty="- %s" $PREVIOUS_VERSION..)
-                  printf "# v${{ steps.current-version.outputs.version }}\n\n## Changes\n$CHANGES\n" > CHANGELOG.md
-
             - name: Auto Release
               uses: CupOfTea696/gh-action-auto-release@v1.0.2
               with:
                   title: "Release $version"
                   tag: "v$semver"
                   draft: false
-                  regex: "/^Release #{semver}$/i"
+                  regex: "Release #{semver}$"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
