@@ -29,6 +29,6 @@ jobs:
             - name: Update changelog
               if: contains(github.event.head_commit.message, 'Update changelog for v${{ steps.current-version.outputs.version }}')
               run: |
-                  export PREVIOUS_VERSION=$(git tag -l --sort=-creatordate | head -n 1)
-                  export CHANGES=$(git log --pretty="- %s" $PREVIOUS_VERSION..)
-                  printf "# v${{ steps.current-version.outputs.version }}\n\n## Changes\n$CHANGES\n" > CHANGELOG.md
+                  PREVIOUS_VERSION=$(git tag -l --sort=-creatordate | head -n 1)
+                  CHANGES=$(git log --pretty="- %s" $PREVIOUS_VERSION..)
+                  echo "# v${{ steps.current-version.outputs.version }}\n\n## Changes\n$CHANGES\n" > CHANGELOG.md
