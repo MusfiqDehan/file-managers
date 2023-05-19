@@ -34,11 +34,13 @@
 -   update actions
 -   add changelog action
 -   Update changelog for v0.21.0
+
 # v0.23.0
+
 ## Changes
-- Update changelog for v0.23.0
-- Update changelog for v0.23.0
-- ✨ feat: Add update-changelog badge
-- ✨ feat: Upload to GitHub Packages using Docker
-- 🗑️ delete: release_notes.md
-- 🗑️ delete: changelog.sh
+
+-   ✅ Update changelog for v0.23.0
+-   ✨ feat: Add update-changelog badge
+-   ✨ feat: Upload to GitHub Packages using Docker
+-   🗑️ delete: release_notes.md
+-   🗑️ delete: changelog.sh
