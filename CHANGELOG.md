@@ -1,4 +1,8 @@
-# v0.22.0\n\n## Changes\n- Update changelog for v0.22.0
+# v0.22.0 \n ## Changes \n - Update changelog for v0.22.0
+- Merge branch 'master' of https://github.com/MusfiqDehan/file-managers
+- Update changelog for v0.22.0
+- Update CHANGELOG.md with latest commit information by GitHub Action
+- Update changelog for v0.22.0
 - update changelog.yml
 - Update changelog for v0.22.0
 - update hello world
