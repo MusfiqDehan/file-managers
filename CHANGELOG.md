@@ -35,7 +35,7 @@
 -   add changelog action
 -   Update changelog for v0.21.0
 
-# v0.23.0
+# 🔖v0.23.0
 
 ## Changes
 
