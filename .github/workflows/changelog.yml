@@ -31,7 +31,7 @@ jobs:
               run: |
                   PREVIOUS_VERSION=$(git tag -l --sort=-creatordate | head -n 1)
                   CHANGES=$(git log --pretty="- %s" $PREVIOUS_VERSION..)
-                  echo "# v${{ steps.current-version.outputs.version }}\n\n## Changes\n$CHANGES\n" > CHANGELOG.md
+                  echo "# v${{ steps.current-version.outputs.version }} \n ## Changes\n$CHANGES\n" > CHANGELOG.md
                   git config user.email "musfiqur.rahaman@northsouth.edu"
                   git config user.name "Md. Musfiqur Rahaman"
                   git commit -am "Update CHANGELOG.md with latest commit information by GitHub Action"
