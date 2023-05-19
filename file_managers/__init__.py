@@ -2,7 +2,7 @@ def hello_world1():
     print("Hello, Python!!")
 
 
-def hello_world2():
+def hello_world22():
     print("Hello, Python!")
 
 
