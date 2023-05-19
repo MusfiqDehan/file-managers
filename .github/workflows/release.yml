@@ -30,7 +30,7 @@ jobs:
                     exit 1
                   fi
 
-            - name: Create a release
+            - name: Setup PyPI Package
               run: |
                   python3 setup.py sdist bdist_wheel
                   git config user.email "musfiqur.rahaman@northsouth.edu"
@@ -38,7 +38,7 @@ jobs:
                   git tag -a "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
                   git push --follow-tags
 
-            - name: Auto Release
+            - name: Create a release
               uses: CupOfTea696/gh-action-auto-release@v1.0.2
               with:
                   title: "Release $version"
@@ -53,3 +53,10 @@ jobs:
               with:
                   user: ${{ secrets.PYPI_USERNAME }}
                   password: ${{ secrets.PYPI_PASSWORD }}
+
+            - name: Upload to GitHub Packages using Docker
+              run: |
+                  docker build -t file-managers .
+                  docker login docker.pkg.github.com -u musfiqdehan -p ${{ secrets.GITHUB_TOKEN }}
+                  docker tag file-managers docker.pkg.github.com/musfiqdehan/file-managers/file-managers-image:v${{ steps.current-version.outputs.version }}
+                  docker push docker.pkg.github.com/musfiqdehan/file-managers/file-managers-image:v${{ steps.current-version.outputs.version }}
