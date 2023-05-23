@@ -1,4 +1,4 @@
-def hello_world1():
+def hello_world():
     print("Hello, Python!!")
 
 
