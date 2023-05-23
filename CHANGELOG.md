@@ -44,7 +44,10 @@
 -   ✨ feat: Upload to GitHub Packages using Docker
 -   🗑️ delete: release_notes.md
 -   🗑️ delete: changelog.sh
+
 # v0.24.0
+
 ## Changes
-- Update changelog for v0.24.0
-- Release v0.23.0
+
+-   Update changelog for v0.24.0
+-   Release v0.23.0
