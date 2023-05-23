@@ -17,7 +17,9 @@ jobs:
                   python-version: 3.x
 
             - name: Install dependencies
-              run: pip3 install -r requirements.txt
+              run: |
+                  pip3 install --upgrade pip
+                  pip3 install -r requirements.txt
 
             - name: Get the current version
               id: current-version
@@ -38,7 +40,13 @@ jobs:
                   git tag -a "v${{ steps.current-version.outputs.version }}" -m "Release v${{ steps.current-version.outputs.version }}"
                   git push --follow-tags
 
-            - name: Create a release
+            # - name: Setup PyPI Package using poetry
+            #   run: |
+            #       poetry build
+            #       poetry config http-basic.pypi ${{ secrets.PYPI_USERNAME }} ${{ secrets.PYPI_PASSWORD }}
+            #       poetry publish
+
+            - name: Create a new release
               uses: CupOfTea696/gh-action-auto-release@v1.0.2
               with:
                   title: "Release $version"
