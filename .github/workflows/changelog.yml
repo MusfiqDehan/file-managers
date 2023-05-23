@@ -16,4 +16,4 @@ jobs:
                   name: Md. Musfiqur Rahaman
                   email: musfiqur.rahaman@northsouth.edu
                   token: ${{ secrets.GITHUB_TOKEN }}
-                  version: $(python3 setup.py --version)
+                  version: 0.25.0
