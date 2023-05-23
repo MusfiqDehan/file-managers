@@ -1,8 +1,8 @@
-def hello_world11():
+def hello_world1():
     print("Hello, Python!!")
 
 
-def hello_world2():
+def hello_world():
     print("Hello, Python!")
 
 
