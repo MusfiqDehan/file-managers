@@ -11,4 +11,8 @@ jobs:
 
         steps:
             - name: auto-update-changelog
-              uses: MusfiqDehan/Auto-Update-CHANGELOG@v0.4.0
+              uses: MusfiqDehan/Auto-Update-CHANGELOG@v0.5.0
+              with:
+                  name: Md. Musfiqur Rahaman
+                  email: musfiqur.rahaman@northsouth.edu
+                  token: ${{ secrets.GITHUB_TOKEN }}
