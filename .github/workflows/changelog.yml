@@ -3,7 +3,7 @@ name: Update Changelog
 on:
     push:
         branches:
-            - main
+            - master
 
 jobs:
     update-changelog:
@@ -11,7 +11,4 @@ jobs:
 
         steps:
             - name: auto-update-changelog
-              uses: MusfiqDehan/Auto-Update-CHANGELOG@v0.3.0
-              with:
-                  trigger: Update CHANGELOG
-                  token: ${{ secrets.GITHUB_TOKEN }}
+              uses: MusfiqDehan/Auto-Update-CHANGELOG@v0.4.0
