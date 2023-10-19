@@ -11,11 +11,6 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - name: Set up Python
-              uses: actions/setup-python@v1
-              with:
-                  python-version: 3.x
-
             - name: Greeting
               uses: MusfiqDehan/Auto-Update-CHANGELOG@v0.8.0
               with:
