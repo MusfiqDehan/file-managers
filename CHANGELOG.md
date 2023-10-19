@@ -45,7 +45,7 @@
 -   🗑️ delete: release_notes.md
 -   🗑️ delete: changelog.sh
 
-# v0.24.0
+# 🔖v0.24.0
 
 ## Changes
 
