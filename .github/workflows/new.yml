@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: MusfiqDehan/Auto-Update-CHANGELOG@v0.8.0
+        uses: MusfiqDehan/Auto-Update-CHANGELOG@v0.9.0
         with:
           who-to-greet: 'MusfiqDehan'
       # Use the output from the `hello` step
