@@ -1,17 +1,15 @@
-name: New
-
-on:
-    push:
-        branches:
-            - master
+on: [push]
 
 jobs:
-    release:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-
-            - name: Greeting
-              uses: MusfiqDehan/Auto-Update-CHANGELOG@v0.8.0
-              with:
-                  who-to-greet: "MusfiqDehan"
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+      - name: Hello world action step
+        id: hello
+        uses: MusfiqDehan/Auto-Update-CHANGELOG@v0.8.0
+        with:
+          who-to-greet: 'MusfiqDehan'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
